@@ -221,25 +221,25 @@ class CLR_BRWHT(CLR): color = "\033[37;1m"
 def PrintErrMsg(msg):
     if CLR.useColor:
         sys.stdout.write(str(CLR_BRRED()))
-        sys.stdout.write(msg)
+        sys.stdout.write(msg.encode(locale.getpreferredencoding() or "UTF-8"))
         sys.stdout.write(str(CLR_NRM()))
     else:
-        sys.stdout.write(msg)
+        sys.stdout.write(msg.encode(locale.getpreferredencoding() or "UTF-8"))
 
 
 def PrintMsg(color, msg):
     if CLR.useColor:
         sys.stdout.write(str(color))
-        sys.stdout.write(msg)
+        sys.stdout.write(msg.encode(locale.getpreferredencoding() or "UTF-8"))
         sys.stdout.write(str(CLR_NRM()))
     else:
-        sys.stdout.write(msg)
+        sys.stdout.write(msg.encode(locale.getpreferredencoding() or "UTF-8"))
 
 
 def DebugPrint(msg):
     return
     sys.stdout.write(str(CLR_YLW()))
-    sys.stdout.write(msg)
+    sys.stdout.write(msg.encode(locale.getpreferredencoding() or "UTF-8"))
     sys.stdout.write(str(CLR_NRM()))
 
 
@@ -638,8 +638,7 @@ class gcalcli:
 
             # convert the strings to unicode for various string ops
             for j in xrange(7):
-                weekEventStrings[j] = unicode(weekEventStrings[j],
-                                              locale.getpreferredencoding())
+                weekEventStrings[j] = weekEventStrings[j].decode(locale.getpreferredencoding() or "UTF-8")
 
             # get date range objects for the next week
             startWeekDateTime = endWeekDateTime
@@ -1481,7 +1480,7 @@ def BowChickaWowWow():
             sys.exit(1)
 
         # allow unicode strings for input
-        gcal.TextQuery(unicode(args[1], locale.getpreferredencoding()))
+        gcal.TextQuery(args[1].decode(locale.getpreferredencoding() or "UTF-8"))
 
         sys.stdout.write('\n')
 
@@ -1544,7 +1543,8 @@ def BowChickaWowWow():
             sys.exit(1)
 
         # allow unicode strings for input
-        gcal.QuickAdd(unicode(args[1], locale.getpreferredencoding()))
+        gcal.QuickAdd(args[1].decode(locale.getpreferredencoding() or "UTF-8"),
+                      reminderMinutes=reminderMinutes)
 
     elif args[0] == 'remind':
         if len(args) == 3: # minutes and command
